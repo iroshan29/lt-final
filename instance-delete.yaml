@@ -1,0 +1,23 @@
+---
+- name: Delete instance(s)
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    gcp_cred_file: /etc/ansible/key.json
+    gcp_project: angelic-button-318912
+    gcp_cred_kind: serviceaccount
+    zone: "us-central1-a"
+    region: "us-central1"
+  tasks:
+
+    - name: Destroy instances
+
+      gcp_compute_instance:
+        name: "{{ instances }}"
+        zone: "{{ zone }}"
+        project: "{{ gcp_project }}"
+        service_account_file: "{{ gcp_cred_file }}"
+        auth_kind: "{{ gcp_cred_kind }}"
+        state: absent
